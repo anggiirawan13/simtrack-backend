@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ShipperRequest;
 use App\Models\Shipper;
+use App\Http\Responses\BaseResponse; // Pastikan BaseResponse ada di namespace ini
 
 class ShipperController extends Controller
 {
@@ -12,15 +13,9 @@ class ShipperController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+        $shippers = Shipper::all();
+        $resp = new BaseResponse(true, 'Success', $shippers);
+        return $resp->getResponse();
     }
 
     /**
@@ -28,7 +23,13 @@ class ShipperController extends Controller
      */
     public function store(ShipperRequest $request)
     {
-        //
+        $shipper = new Shipper();
+        $shipper->user_id = $request->user_id;
+        $shipper->device_mapping = $request->device_mapping;
+        $shipper->save();
+
+        $resp = new BaseResponse(true, 'Shipper created successfully', $shipper);
+        return $resp->getResponse();
     }
 
     /**
@@ -36,15 +37,8 @@ class ShipperController extends Controller
      */
     public function show(Shipper $shipper)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Shipper $shipper)
-    {
-        //
+        $resp = new BaseResponse(true, 'Success', $shipper);
+        return $resp->getResponse();
     }
 
     /**
@@ -52,7 +46,12 @@ class ShipperController extends Controller
      */
     public function update(ShipperRequest $request, Shipper $shipper)
     {
-        //
+        $shipper->user_id = $request->user_id;
+        $shipper->device_mapping = $request->device_mapping;
+        $shipper->save();
+
+        $resp = new BaseResponse(true, 'Shipper updated successfully', $shipper);
+        return $resp->getResponse();
     }
 
     /**
@@ -60,6 +59,8 @@ class ShipperController extends Controller
      */
     public function destroy(Shipper $shipper)
     {
-        //
+        $shipper->delete();
+        $resp = new BaseResponse(true, 'Shipper deleted successfully', null);
+        return $resp->getResponse();
     }
 }

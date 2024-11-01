@@ -11,7 +11,7 @@ class ShipperRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true; // Ubah menjadi false jika ingin menambahkan otorisasi
     }
 
     /**
@@ -22,7 +22,8 @@ class ShipperRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'user_id' => 'required|integer|exists:users,id',
+            'device_mapping' => 'required|string|max:255',
         ];
     }
 }

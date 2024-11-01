@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\DeliveryRequest;
 use App\Models\Delivery;
+use App\Http\Responses\BaseResponse; // Pastikan BaseResponse ada di namespace ini
 
 class DeliveryController extends Controller
 {
@@ -12,15 +13,9 @@ class DeliveryController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+        $deliveries = Delivery::all();
+        $resp = new BaseResponse(true, 'Success', $deliveries);
+        return $resp->getResponse();
     }
 
     /**
@@ -28,7 +23,19 @@ class DeliveryController extends Controller
      */
     public function store(DeliveryRequest $request)
     {
-        //
+        $delivery = new Delivery();
+        $delivery->delivery_number = $request->delivery_number;
+        $delivery->company_name = $request->company_name;
+        $delivery->shipper_id = $request->shipper_id;
+        $delivery->status_id = $request->status_id;
+        $delivery->delivery_date = $request->delivery_date;
+        $delivery->receive_date = $request->receive_date;
+        $delivery->confirmation_code = $request->confirmation_code;
+        $delivery->created_by = 'admin'; // Atur sesuai dengan ID pengguna yang membuat
+        $delivery->save();
+
+        $resp = new BaseResponse(true, 'Delivery created successfully', $delivery);
+        return $resp->getResponse();
     }
 
     /**
@@ -36,15 +43,8 @@ class DeliveryController extends Controller
      */
     public function show(Delivery $delivery)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Delivery $delivery)
-    {
-        //
+        $resp = new BaseResponse(true, 'Success', $delivery);
+        return $resp->getResponse();
     }
 
     /**
@@ -52,7 +52,18 @@ class DeliveryController extends Controller
      */
     public function update(DeliveryRequest $request, Delivery $delivery)
     {
-        //
+        $delivery->delivery_number = $request->delivery_number;
+        $delivery->company_name = $request->company_name;
+        $delivery->shipper_id = $request->shipper_id;
+        $delivery->status_id = $request->status_id;
+        $delivery->delivery_date = $request->delivery_date;
+        $delivery->receive_date = $request->receive_date;
+        $delivery->confirmation_code = $request->confirmation_code;
+        $delivery->updated_by = 'admin'; // Atur sesuai dengan ID pengguna yang memperbarui
+        $delivery->save();
+
+        $resp = new BaseResponse(true, 'Delivery updated successfully', $delivery);
+        return $resp->getResponse();
     }
 
     /**
@@ -60,6 +71,8 @@ class DeliveryController extends Controller
      */
     public function destroy(Delivery $delivery)
     {
-        //
+        $delivery->delete();
+        $resp = new BaseResponse(true, 'Delivery deleted successfully', null);
+        return $resp->getResponse();
     }
 }
