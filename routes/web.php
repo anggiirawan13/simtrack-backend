@@ -9,7 +9,7 @@ Route::controller(UserController::class)->prefix('/user')->group(function () {
 });
 
 Route::get('/', function () {
-    return view('home');
+    return view('welcome');
 });
 
 Route::get('/resi/{noResi}', [ResiController::class, 'show'])->name('resi.show');
