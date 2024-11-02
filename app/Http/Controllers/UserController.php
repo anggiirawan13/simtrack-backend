@@ -39,9 +39,9 @@ class UserController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(User $user)
+    public function show($id)
     {
-        $resp = new BaseResponse(true, 'Success', $user);
+        $resp = new BaseResponse(true, 'Success', User::find($id));
         return $resp->getResponse();
     }
 
